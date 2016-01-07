@@ -3,6 +3,7 @@
 - name: copy source
   synchronize: src=../../../../..   dest=/home/
       rsync_opts="--exclude 'contrib' --exclude 'provisioning'  --exclude='.vagrant' --exclude='.env' --exclude='config/database.yml'"
+  notify: restart cuttlefish
   #--exclude='.git'
 
 - name: bundle install
@@ -11,9 +12,11 @@
 
 - name: database.yml
   template: src=database.yml.j2 dest=/home/cuttlefish/config/database.yml
+  notify: restart cuttlefish
 
 - name: .env setup
   template: src=env.j2 dest=/home/cuttlefish/.env
+  notify: restart cuttlefish
 
 - name: revision
   delegate_to: 127.0.0.1

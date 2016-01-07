@@ -1,0 +1,4 @@
+---
+
+- name: restart cuttlefish
+  shell: sudo service cuttlefish-log restart && sudo service cuttlefish-smtp restart && sudo service cuttlefish-web restart && sudo service cuttlefish-workers restart
