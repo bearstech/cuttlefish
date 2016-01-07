@@ -1,0 +1,5 @@
+%cuttlefish ALL = (root) NOPASSWD:/usr/sbin/service cuttlefish-log restart
+%cuttlefish ALL = (root) NOPASSWD:/usr/sbin/service cuttlefish-smtp restart
+%cuttlefish ALL = (root) NOPASSWD:/usr/sbin/service cuttlefish-web restart
+%cuttlefish ALL = (root) NOPASSWD:/usr/sbin/service cuttlefish-workers restart
+
