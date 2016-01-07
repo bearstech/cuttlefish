@@ -1,0 +1,77 @@
+---
+
+- name: packages
+  apt: pkg={{ item }}
+  with_items:
+      - postfix
+      - ruby2.1
+      - ruby
+      - ruby-dev
+      - libpq-dev
+      - imagemagick
+      - libmagickcore-dev
+      - libmagickwand-dev
+      - git
+      - bundler
+      - redis-server
+      - rsync
+      - nginx
+      - build-essential
+
+- name: site available
+  template: src=cuttlefish.conf.j2
+            dest=/etc/nginx/sites-available/cuttlefish.conf
+  notify: restart nginx
+
+- name: site enabled
+  file: state=link
+        src=/etc/nginx/sites-available/cuttlefish.conf
+        dest=/etc/nginx/sites-enabled/cuttlefish.conf
+  notify: restart nginx
+
+- name: cuttlefish user
+  user: name=cuttlefish
+        state=present
+        shell=/bin/bash
+        groups=adm,ssl-cert
+
+- name: ssh folder
+  file: path=/home/cuttlefish.ssh
+        state=directory
+
+- name: root authorized keys
+  command: cat /root/.ssh/authorized_keys
+  register: authorized_root
+
+
+- name: root can log as cuttlefish
+  lineinfile: dest=/home/cuttlefish/.ssh/authorized_keys
+              line="{{ item }}"
+              create=yes
+              owner=cuttlefish
+  with_items: authorized_root.stdout_lines
+
+- name: env exist
+  command: ls /home/cuttlefish/.env
+  ignore_errors: True
+  register: env_exists
+
+- name: services
+  copy: src=systemd/{{ item }} dest=/etc/systemd/system/{{ item }}
+  with_items:
+      - cuttlefish.service
+      - cuttlefish-smtp.service
+      - cuttlefish-log.service
+      - cuttlefish-workers.service
+      - cuttlefish-web.service
+  notify: systemctl daemon-reload
+
+- name: services
+  service: name={{ item }} state=started
+  with_items:
+      - cuttlefish
+      - cuttlefish-smtp
+      - cuttlefish-log
+      - cuttlefish-workers
+      - cuttlefish-web
+  when: env_exists.stderr == ''

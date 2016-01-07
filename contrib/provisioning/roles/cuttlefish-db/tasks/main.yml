@@ -1,0 +1,18 @@
+---
+
+- name: packages
+  apt: pkg={{ item }}
+  with_items:
+      - postgresql
+      - sudo
+      - python-psycopg2
+
+- name: db
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name=cuttlefish
+
+- name: user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
