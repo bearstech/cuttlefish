@@ -50,12 +50,14 @@
   command: cat /root/.ssh/authorized_keys
   register: authorized_root
 
-
 - name: root can log as cuttlefish
   lineinfile: dest=/home/cuttlefish/.ssh/authorized_keys
               line="{{ item }}"
               create=yes
               owner=cuttlefish
+              group=cuttlefish
+              mode=600
+
   with_items: authorized_root.stdout_lines
 
 - name: env exist

@@ -8,6 +8,9 @@
 - hosts: cuttlefish
   roles:
     - cuttlefish
+
+- hosts: cuttlefish
+  user: cuttlefish
+  roles:
     - role: cuttlefish-app
       tags: app
-      user: cuttlefish
