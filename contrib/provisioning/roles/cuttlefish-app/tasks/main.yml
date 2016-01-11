@@ -12,17 +12,35 @@
 
 - name: patch Gemfile.lock for puma (name)
   lineinfile: dest=/home/cuttlefish/Gemfile.lock
-              line="'  puma'"
+              line='  puma'
               insertbefore="'  pundit'"
 
 - name: patch Gemfile.lock for puma (version)
   lineinfile: dest=/home/cuttlefish/Gemfile.lock
-              line="'    puma (2.14.0)'"
+              line='    puma (2.14.0)'
               insertbefore="'    pundit (0.3.0)'"
 
 - name: puma.rb
   copy: src=puma.rb dest=/home/cuttlefish/config/puma.rb
   notify: restart cuttlefish
+
+- name: remove skylight from Gemfile
+  lineinfile: state=absent
+              dest=/home/cuttlefish/Gemfile
+              line='gem "skylight"'
+  when: skylight_application is not defined
+
+- name: remove skylight (version) from Gemfile.lock
+  lineinfile: state=absent
+              dest=/home/cuttlefish/Gemfile.lock
+              line='    skylight (0.5.2)'
+  when: skylight_application is not defined
+
+- name: remove skylight (name) from Gemfile.lock
+  lineinfile: state=absent
+              dest=/home/cuttlefish/Gemfile.lock
+              line='  skylight'
+  when: skylight_application is not defined
 
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
