@@ -43,7 +43,7 @@
         group=root
 
 - name: ssh folder
-  file: path=/home/cuttlefish.ssh
+  file: path=/home/cuttlefish/.ssh
         state=directory
 
 - name: root authorized keys
