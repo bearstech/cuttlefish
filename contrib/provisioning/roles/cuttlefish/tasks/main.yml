@@ -63,6 +63,7 @@
 - name: env exist
   command: ls /home/cuttlefish/.env
   ignore_errors: True
+  always_run: yes
   register: env_exists
 
 - name: services
@@ -75,7 +76,7 @@
       - cuttlefish-web.service
   notify: systemctl daemon-reload
 
-- name: services
+- name: services are started
   service: name={{ item }} state=started
   with_items:
       - cuttlefish
