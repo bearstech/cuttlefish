@@ -40,6 +40,7 @@
   delegate_to: 127.0.0.1
   command: git describe --always
   register: revision
+  always_run: true
 
 - name: REVISION
   copy: "content='{{ revision.stdout }}' dest=/home/cuttlefish/REVISION"
