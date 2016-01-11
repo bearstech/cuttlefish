@@ -6,6 +6,24 @@
   notify: restart cuttlefish
   #--exclude='.git'
 
+- name: patch Gemfile for puma
+  lineinfile: dest=/home/cuttlefish/Gemfile
+              line="gem 'puma'"
+
+- name: patch Gemfile.lock for puma (name)
+  lineinfile: dest=/home/cuttlefish/Gemfile.lock
+              line="'  puma'"
+              insertbefore="'  pundit'"
+
+- name: patch Gemfile.lock for puma (version)
+  lineinfile: dest=/home/cuttlefish/Gemfile.lock
+              line="'    puma (2.14.0)'"
+              insertbefore="'    pundit (0.3.0)'"
+
+- name: puma.rb
+  copy: src=puma.rb dest=/home/cuttlefish/config/puma.rb
+  notify: restart cuttlefish
+
 - name: bundle install
   command: bundle install --frozen --path=vendor --quiet
            chdir=/home/cuttlefish
