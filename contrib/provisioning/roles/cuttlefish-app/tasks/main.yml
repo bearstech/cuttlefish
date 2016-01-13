@@ -1,7 +1,7 @@
 ---
 
 - name: copy source
-  synchronize: src=../../../../..   dest=/home/
+  synchronize: src=../../../../..   dest=/home/cuttlefish/
       rsync_opts="--exclude 'contrib' --exclude 'provisioning'  --exclude='.vagrant' --exclude='.env' --exclude='config/database.yml'"
   notify: restart cuttlefish
   #--exclude='.git'
