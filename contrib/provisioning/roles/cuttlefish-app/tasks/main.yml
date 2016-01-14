@@ -9,16 +9,20 @@
 - name: patch Gemfile for puma
   lineinfile: dest=/home/cuttlefish/Gemfile
               line="gem 'puma'"
+              insertbefore='gem "pundit"'
+              state=present
 
 - name: patch Gemfile.lock for puma (name)
   lineinfile: dest=/home/cuttlefish/Gemfile.lock
               line='  puma'
-              insertbefore="'  pundit'"
+              insertbefore='  pundit'
+              state=present
 
 - name: patch Gemfile.lock for puma (version)
   lineinfile: dest=/home/cuttlefish/Gemfile.lock
               line='    puma (2.15.3)'
-              insertbefore="'    pundit (0.3.0)'"
+              insertbefore='    pundit \(0\.3\.0\)'
+              state=present
 
 - name: puma.rb
   copy: src=puma.rb dest=/home/cuttlefish/config/puma.rb
