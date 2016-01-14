@@ -17,7 +17,7 @@
 
 - name: patch Gemfile.lock for puma (version)
   lineinfile: dest=/home/cuttlefish/Gemfile.lock
-              line='    puma (2.14.0)'
+              line='    puma (2.15.3)'
               insertbefore="'    pundit (0.3.0)'"
 
 - name: puma.rb
