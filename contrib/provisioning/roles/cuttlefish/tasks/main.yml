@@ -61,6 +61,15 @@
 
   with_items: authorized_root.stdout_lines
 
+- name: ssl certificate is readable
+  file: path={{ item }}
+        owner=root
+        group=ssl-cert
+        mode=640
+  with_items:
+      - "{{ cuttlefish_private_key }}"
+      - "{{ cuttlefish_cert }}"
+
 - name: env exist
   command: ls /home/cuttlefish/.env
   ignore_errors: True
