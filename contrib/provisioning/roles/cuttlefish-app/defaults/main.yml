@@ -6,3 +6,4 @@ web_concurrency: 2
 bundler_jobs: 1
 time_zone: UTC
 disable_ssl: False
+sidekiq_workers: 25
