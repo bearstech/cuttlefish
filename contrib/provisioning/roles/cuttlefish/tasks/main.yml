@@ -95,3 +95,12 @@
       - cuttlefish-workers
       - cuttlefish-web
   when: env_exists.stderr == ''
+
+
+#
+# Rsyslog
+#
+
+- name: rsyslog routage
+  copy: src=rsyslog.d/cuttlefish.conf dest=/etc/rsyslog.d/cuttlefish.conf
+  notify: restart rsyslog

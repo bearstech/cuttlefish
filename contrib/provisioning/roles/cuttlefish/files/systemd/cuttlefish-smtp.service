@@ -13,6 +13,7 @@ KillMode=process
 Restart=on-failure
 CPUAccounting=true
 SyslogIdentifier=cuttlefish_smtp
+SyslogFacility=local6
 
 [Install]
 WantedBy=multi-user.target
