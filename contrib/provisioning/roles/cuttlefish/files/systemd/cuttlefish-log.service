@@ -12,6 +12,7 @@ ExecStart=/usr/bin/bundle exec rake cuttlefish:log RAILS_ENV=production
 KillMode=process
 Restart=on-failure
 CPUAccounting=true
+SyslogIdentifier=cuttlefish_log
 
 [Install]
 WantedBy=multi-user.target

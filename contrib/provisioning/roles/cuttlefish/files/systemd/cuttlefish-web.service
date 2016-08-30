@@ -12,6 +12,7 @@ ExecStart=/usr/bin/bundle exec puma --config config/puma.rb
 KillMode=process
 Restart=on-failure
 CPUAccounting=true
+SyslogIdentifier=cuttlefish_web
 
 [Install]
 WantedBy=multi-user.target

@@ -12,6 +12,7 @@ ExecStart=/usr/bin/bundle exec sidekiq -e production -c $SIDEKIQ_WORKERS
 KillMode=process
 Restart=on-failure
 CPUAccounting=true
+SyslogIdentifier=cuttlefish_workers
 
 [Install]
 WantedBy=multi-user.target
