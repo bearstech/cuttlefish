@@ -50,10 +50,19 @@
 
 - name: cuttlefish user
   user: name=cuttlefish
+        createhome=yes
+        system=no
         state=present
         shell=/bin/bash
         groups=ssl-cert,adm
         #adm is for reading log
+
+- name: cuttlefish home
+  file: state=directory
+        path=/home/cuttlefish
+        owner=cuttlefish
+        group=cuttlefish
+        mode=0700
 
 - name: cuttlefish is a sudoer
   copy: src=sudoers.d/cuttlefish dest=/etc/sudoers.d/cuttlefish
@@ -64,6 +73,9 @@
 - name: ssh folder
   file: path=/home/cuttlefish/.ssh
         state=directory
+        owner=cuttlefish
+        group=cuttlefish
+        mode=0700
 
 - name: root authorized keys
   command: cat /root/.ssh/authorized_keys
