@@ -101,12 +101,14 @@
       - "{{ cuttlefish_cert }}"
 
 - name: env exist
+  tags: systemd
   command: ls /home/cuttlefish/.env
   ignore_errors: True
   always_run: yes
   register: env_exists
 
 - name: services
+  tags: systemd
   copy: src=systemd/{{ item }} dest=/etc/systemd/system/{{ item }}
   with_items:
       - cuttlefish.service
@@ -117,7 +119,8 @@
   notify: systemctl daemon-reload
 
 - name: services are started
-  service: name={{ item }} state=started
+  tags: systemd
+  service: name={{ item }} state=started enabled=yes
   with_items:
       - cuttlefish
       - cuttlefish-smtp
