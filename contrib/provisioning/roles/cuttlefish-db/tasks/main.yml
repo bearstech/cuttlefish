@@ -8,11 +8,11 @@
       - python-psycopg2
 
 - name: db
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_db: name=cuttlefish
 
 - name: user
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db=cuttlefish name=cuttlefish password={{ db_password }}
