@@ -15,20 +15,38 @@
       - bundler
       - redis-server
       - rsync
-      - nginx
       - build-essential
       - sudo
+      - openssl
 
-- name: site available
-  template: src=cuttlefish.conf.j2
-            dest=/etc/nginx/sites-available/cuttlefish.conf
-  notify: restart nginx
+- block:
+    - name: nginx package
+      apt: pkg={{ item }}
+      with_items:
+          - nginx
 
-- name: site enabled
-  file: state=link
-        src=/etc/nginx/sites-available/cuttlefish.conf
-        dest=/etc/nginx/sites-enabled/cuttlefish.conf
-  notify: restart nginx
+    - name: site available
+      template: src=cuttlefish.conf.j2
+                dest=/etc/nginx/sites-available/cuttlefish.conf
+      notify: restart nginx
+
+    - name: site enabled
+      file: state=link
+            src=/etc/nginx/sites-available/cuttlefish.conf
+            dest=/etc/nginx/sites-enabled/cuttlefish.conf
+      notify: restart nginx
+
+    # This task is very, very long
+    - name: dhparam
+      when: use_dhparam
+      command: openssl dhparam -out /etc/ssl/private/dhparam.pem 4096
+               create=/etc/ssl/private/dhparam.pem
+
+    - name: ensure Nginx is started
+      service: name=ngix state=started enabled=yes
+
+  when: use_nginx
+  tags: nginx
 
 - name: cuttlefish user
   user: name=cuttlefish
