@@ -36,6 +36,11 @@
             dest=/etc/nginx/sites-enabled/cuttlefish.conf
       notify: restart nginx
 
+    - name: no default
+      file: path=/etc/nginx/sites-enabled/default
+            state=absent
+      notify: restart nginx
+
     # This task is very, very long
     - name: dhparam
       when: use_dhparam
