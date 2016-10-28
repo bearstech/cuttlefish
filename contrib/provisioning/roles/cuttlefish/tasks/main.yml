@@ -43,7 +43,7 @@
                create=/etc/ssl/private/dhparam.pem
 
     - name: ensure Nginx is started
-      service: name=ngix state=started enabled=yes
+      service: name=nginx state=started enabled=yes
 
   when: use_nginx
   tags: nginx
