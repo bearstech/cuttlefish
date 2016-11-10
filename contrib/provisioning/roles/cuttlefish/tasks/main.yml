@@ -28,12 +28,27 @@
     - name: site available
       template: src=cuttlefish.conf.j2
                 dest=/etc/nginx/sites-available/cuttlefish.conf
+      when: "{{ not nginx_conf_is_fqdn }}"
       notify: restart nginx
 
     - name: site enabled
       file: state=link
             src=/etc/nginx/sites-available/cuttlefish.conf
             dest=/etc/nginx/sites-enabled/cuttlefish.conf
+      when: "{{ not nginx_conf_is_fqdn }}"
+      notify: restart nginx
+
+    - name: site available
+      template: src=cuttlefish.conf.j2
+                dest=/etc/nginx/sites-available/{{ cuttlefish_domain }}.conf
+      when: "{{ nginx_conf_is_fqdn }}"
+      notify: restart nginx
+
+    - name: site enabled
+      file: state=link
+            src=/etc/nginx/sites-available/{{ cuttlefish_domain }}.conf
+            dest=/etc/nginx/sites-enabled/{{ cuttlefish_domain }}.conf
+      when: "{{ nginx_conf_is_fqdn }}"
       notify: restart nginx
 
     - name: no default
