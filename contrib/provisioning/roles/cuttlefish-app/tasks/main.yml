@@ -52,10 +52,14 @@
 
 - name: database.yml
   template: src=database.yml.j2 dest=/home/cuttlefish/config/database.yml
+  tags: config
   notify: restart cuttlefish
 
 - name: .env setup
   template: src=env.j2 dest=/home/cuttlefish/.env
+  tags:
+      - config
+      - ssl
   notify: restart cuttlefish
 
 - name: revision
@@ -74,3 +78,13 @@
 - name: assets
   shell: RACK_ENV=development bundle exec rake assets:environment assets:precompile
          chdir=/home/cuttlefish
+
+- name: SSL certificate
+  tags: ssl
+  file: path={{ item }}
+        owner=root
+        group=cuttlefish
+        mode=0640
+  with_items:
+   - "{{ cuttlefish_private_key }}"
+   - "{{ cuttlefish_cert }}"
