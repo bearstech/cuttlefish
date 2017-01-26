@@ -57,4 +57,7 @@ server {
 
     client_max_body_size 1G;
     keepalive_timeout 10;
+
+    access_log /var/log/nginx/{{ cuttlefish_domain }}/access.log;
+    error_log /var/log/nginx/{{ cuttlefish_domain }}/error.log;
 }
