@@ -60,8 +60,9 @@ module Cuttlefish
     config.max_no_emails_to_store = ENV["MAX_NO_EMAILS_TO_STORE"] ? ENV["MAX_NO_EMAILS_TO_STORE"].to_i : 100
     # The devise, bounce and sender email addresses need to be on the cuttlefish_domain domain
     # TODO Force this to be the case
-    config.devise_emails_from = ENV["DEVISE_EMAILS_FROM"] || "contact@cuttlefish.oaf.org.au"
-    config.cuttlefish_bounce_email = ENV["CUTTLEFISH_BOUNCE_EMAIL"] || "bounces@cuttlefish.oaf.org.au"
-    config.cuttlefish_sender_email = ENV["CUTTLEFISH_SENDER_EMAIL"] || "sender@cuttlefish.oaf.org.au"
+    config.devise_emails_from = ENV['DEVISE_EMAILS_FROM'] || 'contact@cuttlefish.oaf.org.au'
+    config.cuttlefish_bounce_email = ENV['CUTTLEFISH_BOUNCE_EMAIL'] || 'bounces@cuttlefish.oaf.org.au'
+    config.cuttlefish_sender_email = ENV['CUTTLEFISH_SENDER_EMAIL'] || 'sender@cuttlefish.oaf.org.au'
+    config.cuttlefish_bounce_and_sender_from_app_domain = !ENV['CUTTLEFISH_FROM_APP_DOMAIN'].nil?
   end
 end

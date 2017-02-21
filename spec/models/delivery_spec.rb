@@ -37,8 +37,19 @@ describe Delivery do
       expect(delivery.status).to eq "not_sent"
     end
 
-    it "should have a return path" do
-      expect(delivery.return_path).to eq "bounces@cuttlefish.oaf.org.au"
+    it 'should have a return path' do
+      expect(delivery.return_path).to eq 'bounces@cuttlefish.oaf.org.au'
+    end
+  end
+
+  describe 'per domain' do
+    before(:each) { allow(Rails.configuration).to receive(:cuttlefish_bounce_and_sender_from_app_domain).and_return(true) }
+    # let(:delivery) { FactoryGirl.create(:delivery) }
+
+    it 'should have a domain specific return path' do
+      # delivery = FactoryGirl.create(:delivery, app: app)
+      delivery.app.from_domain = 'cuttlefish.io'
+      expect(delivery.return_path).to eq 'bounces@cuttlefish.io'
     end
   end
 end

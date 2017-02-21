@@ -65,7 +65,11 @@ class Delivery < ActiveRecord::Base
   end
 
   def return_path
-    Rails.configuration.cuttlefish_bounce_email
+    if Rails.configuration.cuttlefish_bounce_and_sender_from_app_domain
+      'bounces@' + app.from_domain
+    else
+      Rails.configuration.cuttlefish_bounce_email
+    end
   end
 
   def opened?
