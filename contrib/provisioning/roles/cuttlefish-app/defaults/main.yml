@@ -7,3 +7,4 @@ bundler_jobs: 1
 time_zone: UTC
 disable_ssl: False
 sidekiq_workers: 25
+cuttlefish_from_app_domain: False
