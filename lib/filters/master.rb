@@ -32,7 +32,7 @@ class Filters::Master < Filters::Base
       cuttlefish_enabled: App.cuttlefish.dkim_enabled,
       cuttlefish_domain: App.cuttlefish.from_domain,
       cuttlefish_key: App.cuttlefish.dkim_key,
-      sender_email: if Rails.configuration.cuttlefish_bounce_and_sender_from_app_domain then 'sender@' + App.cuttlefish.from_domain else Rails.configuration.cuttlefish_sender_email end
+      sender_email: if Rails.configuration.cuttlefish_bounce_and_sender_from_app_domain then 'sender@' + delivery.app.from_domain else Rails.configuration.cuttlefish_sender_email end
     )
 
     filtered1 = filter1.filter_mail(mail)
