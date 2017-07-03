@@ -40,6 +40,10 @@ server {
 
     root /home/cuttlefish/public;
 
+    location = / {
+        return 302 https://{{ cuttlefish_domain }}/dash;
+    }
+
     location ^~ /assets/ {
         gzip_static on;
         expires max;
